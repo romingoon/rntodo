@@ -9,7 +9,7 @@ const App = () => {
   return (
     <SafeAreaView>
       <View>
-        <DateHead />
+        <DateHead date={today} />
       </View>
     </SafeAreaView>
   );

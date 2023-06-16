@@ -1,10 +1,20 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const DateHead = () => {
+type DateHeadProps = {
+  date: Date;
+};
+
+const DateHead = ({ date }: DateHeadProps) => {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+
   return (
     <View style={styles.block}>
-      <Text style={styles.dateText}>2023년 5월 31일</Text>
+      <Text style={styles.dateText}>
+        {year}년 {month}월 {day}일
+      </Text>
     </View>
   );
 };
