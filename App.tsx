@@ -4,7 +4,6 @@ import DateHead from './components/DateHead';
 
 const App = () => {
   const today = new Date();
-  console.log(today);
 
   return (
     <SafeAreaView>
