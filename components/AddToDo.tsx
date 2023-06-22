@@ -1,8 +1,28 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TextInput, Image, TouchableOpacity } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  Image,
+  TouchableOpacity,
+  TouchableNativeFeedback,
+  Platform,
+  Keyboard,
+} from 'react-native';
 
 const AddToDo = () => {
   const [text, setText] = useState('');
+
+  const onPress = () => {
+    setText('');
+    Keyboard.dismiss();
+  };
+
+  const button = (
+    <View style={styles.buttonStyle}>
+      <Image source={require('../assets/icons/add_white/add_white.png')} />
+    </View>
+  );
 
   return (
     <View style={styles.block}>
@@ -11,12 +31,21 @@ const AddToDo = () => {
         style={styles.input}
         value={text}
         onChangeText={setText}
+        onSubmitEditing={onPress}
+        returnKeyType='done'
       />
-      <View style={styles.buttonStyle}>
-        <TouchableOpacity activeOpacity={0.5}>
-          <Image source={require('../assets/icons/add_white/add_white.png')} />
-        </TouchableOpacity>
-      </View>
+      {Platform.select({
+        ios: (
+          <TouchableOpacity activeOpacity={0.5} onPress={onPress}>
+            {button}
+          </TouchableOpacity>
+        ),
+        android: (
+          <View style={styles.circleWrapper}>
+            <TouchableNativeFeedback onPress={onPress}>{button}</TouchableNativeFeedback>
+          </View>
+        ),
+      })}
     </View>
   );
 };
@@ -44,6 +73,10 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     backgroundColor: '#26b69b',
+    borderRadius: 24,
+  },
+  circleWrapper: {
+    overflow: 'hidden',
     borderRadius: 24,
   },
 });
