@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, StatusBar } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -7,6 +7,8 @@ type DateHeadProps = {
 };
 
 const DateHead = ({ date }: DateHeadProps) => {
+  const [greeting, setGreeting] = useState('');
+
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
   const day = date.getDate();
@@ -14,12 +16,26 @@ const DateHead = ({ date }: DateHeadProps) => {
 
   const { top } = useSafeAreaInsets();
 
+  useEffect(() => {
+    const hour = date.getHours();
+    const greeting =
+      hour >= 5 && hour < 12
+        ? 'Good Morning!🤗'
+        : hour >= 12 && hour < 18
+        ? 'Good Afternoon!😪'
+        : hour >= 18 && hour < 22
+        ? 'Good Evening!😌'
+        : 'Good Night!😴';
+    setGreeting(greeting);
+  }, []);
+
   return (
     <>
       <View style={[styles.statusBarPlaceholder, { height: top }]} />
       <StatusBar backgroundColor='#26b69b' barStyle='light-content' />
       <View style={styles.block}>
         <Text style={styles.dateText}>{formatted}</Text>
+        <Text style={styles.helloText}>{greeting}</Text>
       </View>
     </>
   );
@@ -35,6 +51,11 @@ const styles = StyleSheet.create({
   },
   dateText: {
     fontSize: 24,
+    color: 'white',
+  },
+  helloText: {
+    fontSize: 24,
+    fontWeight: 'bold',
     color: 'white',
   },
 });
