@@ -4,7 +4,11 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 const Empty = () => {
   return (
     <View style={styles.block}>
-      <Image source={require('../assets/images/circle.png')} style={styles.image} resizeMode='center' />
+      <Image
+        source={require('../assets/images/young_and_happy.png')}
+        style={styles.image}
+        resizeMode='contain'
+      />
       <Text style={styles.description}> 야호! 할 일이 없어요!</Text>
     </View>
   );
@@ -21,9 +25,9 @@ const styles = StyleSheet.create({
     color: '#9e9e9e',
   },
   image: {
-    width: 250,
-    height: 250,
-    backgroundColor: 'gray',
+    width: 240,
+    height: 179,
+    marginBottom: 16,
   },
 });
 
