@@ -9,11 +9,15 @@ type DateHeadProps = {
 const DateHead = ({ date }: DateHeadProps) => {
   const [greeting, setGreeting] = useState('');
 
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const formatted = `${year}년 ${month}월 ${day}일`;
+  const dayOfWeeks = ['일', '월', '화', '수', '목', '금', '토'];
 
+  const dateLocaleStr = (date: Date = new Date()) => {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const dayOfWeek = dayOfWeeks[date.getDay()];
+    return `${year}년 ${month}월 ${day}일 (${dayOfWeek})`;
+  };
   const { top } = useSafeAreaInsets();
 
   useEffect(() => {
@@ -34,7 +38,7 @@ const DateHead = ({ date }: DateHeadProps) => {
       <View style={[styles.statusBarPlaceholder, { height: top }]} />
       <StatusBar backgroundColor='#26b69b' barStyle='light-content' />
       <View style={styles.block}>
-        <Text style={styles.dateText}>{formatted}</Text>
+        <Text style={styles.dateText}>{dateLocaleStr()}</Text>
         <Text style={styles.helloText}>{greeting}</Text>
       </View>
     </>
@@ -54,7 +58,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   helloText: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
     color: 'white',
   },

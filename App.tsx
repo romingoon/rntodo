@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { KeyboardAvoidingView, StyleSheet, Platform } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import DateHead from './components/DateHead';
@@ -14,6 +14,32 @@ const App = () => {
     { id: 3, text: '눈 마사지 하기', done: false },
   ]);
 
+  const onInsert = (text: string) => {
+    // 새로 등록할 항목의 id를 구한다.
+    // 등록된 항목 중에서 가장 큰 id를 구하고, 그 값에 1을 더한다.
+    // 만약 리스트가 비어있다면 1을 id로 사용한다.
+
+    const nextId = todos.length > 0 ? Math.max(...todos.map((todo) => todo.id)) + 1 : 1;
+
+    const todo = {
+      id: nextId,
+      text,
+      done: false,
+    };
+
+    setTodos(todos.concat(todo));
+  };
+
+  const onToggle = (id: number) => {
+    const nextTodos = todos.map((todo) => (todo.id === id ? { ...todo, done: !todo.done } : todo));
+    setTodos(nextTodos);
+  };
+
+  const onRemove = (id: number) => {
+    const nextTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(nextTodos);
+  };
+
   return (
     <SafeAreaProvider>
       <SafeAreaView edges={['bottom']} style={styles.block}>
@@ -22,8 +48,12 @@ const App = () => {
           style={styles.avoid}
         >
           <DateHead date={today} />
-          {todos.length === 0 ? <Empty /> : <TodoList todos={todos} />}
-          <AddToDo />
+          {todos.length === 0 ? (
+            <Empty />
+          ) : (
+            <TodoList todos={todos} onToggle={onToggle} onRemove={onRemove} />
+          )}
+          <AddToDo onInsert={onInsert} />
         </KeyboardAvoidingView>
       </SafeAreaView>
     </SafeAreaProvider>
