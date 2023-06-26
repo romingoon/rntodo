@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -23,6 +23,7 @@ const TodoItem = ({ id, text, done, onToggle, onRemove }) => {
       },
     );
   };
+
   return (
     <View style={styles.item}>
       <TouchableOpacity onPress={() => onToggle(id)}>
